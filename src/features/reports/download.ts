@@ -1,11 +1,18 @@
 import type { PDFDocument } from 'pdf-lib'
 import { REPORTS_BUCKET, supabase } from '@/lib/supabase'
+import { makeDummyPdf, mockDelay, USE_MOCK_DATA } from './mockData'
 import type { ReportItem } from './types'
 
 const bucket = () => supabase.storage.from(REPORTS_BUCKET)
 
 /** Downloads a report file from Storage as a Blob. */
 async function fetchBlob(storagePath: string): Promise<Blob> {
+  // TEMPORARY: serve a generated test PDF; there is no pre-merged file in mock mode.
+  if (USE_MOCK_DATA) {
+    if (!storagePath.startsWith('mock/')) throw new Error('Not found')
+    await mockDelay(600)
+    return makeDummyPdf(storagePath)
+  }
   const { data, error } = await bucket().download(storagePath)
   if (error || !data) throw error ?? new Error('Download failed')
   return data
