@@ -15,7 +15,7 @@ function buildCsp(apiOrigin: string): string {
     "style-src 'self' https://fonts.googleapis.com",
     "font-src 'self' https://fonts.gstatic.com",
     "img-src 'self' data: blob:",
-    `connect-src 'self' ${apiOrigin}`,
+    `connect-src 'self'${apiOrigin ? ` ${apiOrigin}` : ''}`,
     "object-src 'none'",
     "base-uri 'self'",
     "form-action 'self'",
@@ -105,8 +105,12 @@ function injectSecurityMeta(csp: string): Plugin {
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), 'VITE_')
-  if (!env.VITE_SUPABASE_URL) throw new Error('VITE_SUPABASE_URL is not set. Copy .env.example to .env.')
-  const csp = buildCsp(new URL(env.VITE_SUPABASE_URL).origin)
+  // Optional while the app runs on mock data (src/features/reports/mockData.ts):
+  // without it the CSP simply allows no external API origin.
+  if (!env.VITE_SUPABASE_URL) {
+    console.warn('VITE_SUPABASE_URL is not set: building without a report API origin (mock data only).')
+  }
+  const csp = buildCsp(env.VITE_SUPABASE_URL ? new URL(env.VITE_SUPABASE_URL).origin : '')
 
   return {
     plugins: [react(), obfuscateAppCode(), injectSecurityMeta(csp)],

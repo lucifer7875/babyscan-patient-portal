@@ -1,7 +1,10 @@
 import { createClient } from '@supabase/supabase-js'
+import { USE_MOCK_DATA } from '@/features/reports/mockData'
 
-const url = import.meta.env.VITE_SUPABASE_URL
-const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
+// TEMPORARY: in mock mode the client is never used, so placeholders keep the app
+// running when the env vars are not configured (e.g. a demo deploy).
+const url = import.meta.env.VITE_SUPABASE_URL || (USE_MOCK_DATA ? 'https://mock.invalid' : '')
+const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || (USE_MOCK_DATA ? 'mock-anon-key' : '')
 
 if (!url || !anonKey) {
   throw new Error(
