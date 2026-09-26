@@ -56,37 +56,9 @@
   --dur-med: 260ms;
   --dur-slow: 560ms;
 
-  color-scheme: light;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #03191a;
-    --surface: #072624;
-    --surface-sunken: #0a2f2c;
-    --text: #e6f7f3;
-    --text-muted: #a3c4bd;
-    --border: #1b4640;
-    --border-strong: #2e6b61;
-    --primary: var(--brand-600);
-    --primary-strong: var(--brand-800);
-    --focus: #5eead4;
-    --danger: #ff9b8f;
-    --danger-bg: #2a1210;
-    --success: #5eead4;
-    --success-strong: #0b8a67;
-    --accent-text: var(--brand-300);
-    --warn-bg: #2a1f08;
-    --warn-border: #5c4414;
-    --warn-text: #ffcf7a;
-    --note-bg: #0a302b;
-    --note-border: #1f5b52;
-    --hero-from: #011715;
-    --hero-mid: #01392f;
-    --hero-to: #006352;
-    --shadow-card: 0 1px 2px rgb(0 0 0 / 0.4), 0 16px 40px -12px rgb(0 0 0 / 0.6);
-    color-scheme: dark;
-  }
+  /* Light-only design: the portal always renders white cards, even when the
+     device is in dark mode. */
+  color-scheme: only light;
 }
 
 /* ───────────────────────── Base ───────────────────────── */
@@ -1372,16 +1344,6 @@ input {
     bottom: 24px;
     transform: none;
   }
-
-}
-
-@media (prefers-color-scheme: dark) {
-  .report__icon { color: var(--brand-300); background: rgb(45 212 191 / 0.12); }
-  .report__icon--echo { color: #ff9fbf; background: rgb(255 159 191 / 0.12); }
-  .report__icon--doppler { color: #c4b2ff; background: rgb(196 178 255 / 0.12); }
-  .report__icon--growth { color: #ffcf7a; background: rgb(255 207 122 / 0.12); }
-  .report__icon--images3d,
-  .report__icon--images2d { color: #8fd3f4; background: rgb(143 211 244 / 0.12); }
 
 }
 
